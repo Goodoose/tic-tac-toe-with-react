@@ -1,6 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-
-import Cell from './Components/Cell.jsx';
 
 export default class App extends React.Component {
   constructor() {
@@ -24,22 +23,18 @@ export default class App extends React.Component {
 
   handleClick(id) {
     this.setState((prevState) => {
-      const clickCellUpdate = prevState.stateGame.map((cell) => {
-        if (cell.id === id && cell.name === '') { // eslint-disable-next-line no-param-reassign
-          cell.name = 'X';
-          const { changePlayer } = this.state;
-          if (!changePlayer) { // eslint-disable-next-line no-param-reassign
-            cell.name = 'O';
-          }
-          this.state.changePlayer = !changePlayer;
-        }
-        return cell;
-      });
+      const { stateGame } = prevState;
+      if (stateGame[id].name) {
+        return prevState;
+      }
+      const { changePlayer } = this.state;
+      stateGame[id].name = changePlayer ? 'X' : 'O';
       return {
-        stateGame: clickCellUpdate,
+        stateGame,
+        changePlayer: !changePlayer,
       };
     });
-    setTimeout(() => this.winCombo(), 200);
+    setTimeout(() => this.winCombo(), 0);
   }
 
   handleClickRestart() {
@@ -52,15 +47,18 @@ export default class App extends React.Component {
 
   showWinner(winPlayer) {
     const { stateGame } = this.state;
-    this.state.stateGame = stateGame.map((cell) => {
-      if (cell.name === '') { // eslint-disable-next-line no-param-reassign
-        cell.name = ' ';
-      }
-      return cell;
+    this.setState(() => {
+      const newState = stateGame.map((cell) => {
+        if (cell.name === '') { // eslint-disable-next-line no-param-reassign
+          cell.name = ' ';
+        }
+        return cell;
+      });
+      return {
+        stateGame: newState,
+        messageWin: `Player ${winPlayer} win!!!`,
+      };
     });
-    this.setState(() => ({
-      messageWin: `Player ${winPlayer} win!!!`,
-    }));
   }
 
   isFull() {
@@ -98,7 +96,7 @@ export default class App extends React.Component {
     }
     if (this.isFull() && winPlayer === '') {
       this.setState(() => ({
-        messageWin: 'Draw!!!',
+        messageWin: '!!!!! Draw !!!!!',
       }));
     }
   }
@@ -107,12 +105,14 @@ export default class App extends React.Component {
     const { stateGame } = this.state;
     const renderGame = stateGame
       .map(cell => (
-        <Cell
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        <div
+          className="game__cell"
           key={cell.id}
-          itemId={cell.id}
-          itemName={cell.name}
-          handleClick={this.handleClick}
-        />
+          onClick={() => this.handleClick(cell.id)}
+        >
+          {cell.name}
+        </div>
       ));
     const { messageWin } = this.state;
     return (

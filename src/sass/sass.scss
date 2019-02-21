@@ -4,9 +4,9 @@
 }
 
 .container {
-  margin: auto;
   width: 60vh;
   height: 60vh;
+  margin: auto;
   text-align: center;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -45,8 +45,8 @@
 .moved {
   position: absolute;
   color: yellow;
-  top: 35%;
-  left: 17%;
+  margin-top: 18vh;
+  margin-left: 18vw;
   font-size: 10vw;
   animation-name: moveFil;
   animation-duration: 2.5s;
@@ -55,20 +55,20 @@
 @keyframes moveFil {
   0% {
     color: blue;
-    top:  0%;
-    left: 5%;
+    margin-top: 1vh;
+    margin-left: 1vw;
     font-size: 0vw;
   }
   50% {
     color: green;
-    top: 30%;
-    left: 10%;
+    margin-top: 14vh;
+    margin-left: 14vw;
     font-size: 12vw;
   }
   100% {
     color: yellow;
-    top: 35%;
-    left: 17%;
+    margin-top: 18vh;
+    margin-left: 18vw;
     font-size: 10vw;
   }
 }
