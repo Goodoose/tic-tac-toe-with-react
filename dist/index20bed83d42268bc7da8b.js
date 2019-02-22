@@ -95,7 +95,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _App_App_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(13);
-/* harmony import */ var _sass_sass_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(15);
+/* harmony import */ var _sass_sass_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
 /* harmony import */ var _sass_sass_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_sass_sass_scss__WEBPACK_IMPORTED_MODULE_3__);
 
 
@@ -24563,7 +24563,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return App; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Components_Cell_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -24590,7 +24589,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 
 
 var App =
@@ -24620,29 +24619,22 @@ function (_React$Component) {
       var _this2 = this;
 
       this.setState(function (prevState) {
-        var clickCellUpdate = prevState.stateGame.map(function (cell) {
-          if (cell.id === id && cell.name === '') {
-            // eslint-disable-next-line no-param-reassign
-            cell.name = 'X';
-            var changePlayer = _this2.state.changePlayer;
+        var stateGame = prevState.stateGame;
 
-            if (!changePlayer) {
-              // eslint-disable-next-line no-param-reassign
-              cell.name = 'O';
-            }
+        if (stateGame[id].name) {
+          return prevState;
+        }
 
-            _this2.state.changePlayer = !changePlayer;
-          }
-
-          return cell;
-        });
+        var changePlayer = _this2.state.changePlayer;
+        stateGame[id].name = changePlayer ? 'X' : 'O';
         return {
-          stateGame: clickCellUpdate
+          stateGame: stateGame,
+          changePlayer: !changePlayer
         };
       });
       setTimeout(function () {
         return _this2.winCombo();
-      }, 200);
+      }, 0);
     }
   }, {
     key: "handleClickRestart",
@@ -24659,16 +24651,17 @@ function (_React$Component) {
     key: "showWinner",
     value: function showWinner(winPlayer) {
       var stateGame = this.state.stateGame;
-      this.state.stateGame = stateGame.map(function (cell) {
-        if (cell.name === '') {
-          // eslint-disable-next-line no-param-reassign
-          cell.name = ' ';
-        }
-
-        return cell;
-      });
       this.setState(function () {
+        var newState = stateGame.map(function (cell) {
+          if (cell.name === '') {
+            // eslint-disable-next-line no-param-reassign
+            cell.name = ' ';
+          }
+
+          return cell;
+        });
         return {
+          stateGame: newState,
           messageWin: "Player ".concat(winPlayer, " win!!!")
         };
       });
@@ -24720,7 +24713,7 @@ function (_React$Component) {
       if (this.isFull() && winPlayer === '') {
         this.setState(function () {
           return {
-            messageWin: 'Draw!!!'
+            messageWin: '!!!!! Draw !!!!!'
           };
         });
       }
@@ -24732,12 +24725,15 @@ function (_React$Component) {
 
       var stateGame = this.state.stateGame;
       var renderGame = stateGame.map(function (cell) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Components_Cell_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          key: cell.id,
-          itemId: cell.id,
-          itemName: cell.name,
-          handleClick: _this3.handleClick
-        });
+        return (// eslint-disable-next-line jsx-a11y/no-static-element-interactions
+          react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "game__cell",
+            key: cell.id,
+            onClick: function onClick() {
+              return _this3.handleClick(cell.id);
+            }
+          }, cell.name)
+        );
       });
       var messageWin = this.state.messageWin;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -24772,69 +24768,10 @@ function (_React$Component) {
 
 /***/ }),
 /* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Cell; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-
-
-var Cell =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(Cell, _React$Component);
-
-  function Cell() {
-    _classCallCheck(this, Cell);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(Cell).apply(this, arguments));
-  }
-
-  _createClass(Cell, [{
-    key: "render",
-    value: function render() {
-      var _this = this;
-
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "game__cell",
-        onClick: function onClick() {
-          return _this.props.handleClick(_this.props.itemId);
-        }
-      }, this.props.itemName);
-    }
-  }]);
-
-  return Cell;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-
-
-/***/ }),
-/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(16);
+var content = __webpack_require__(15);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -24848,24 +24785,24 @@ var options = {"hmr":true}
 options.transform = transform
 options.insertInto = undefined;
 
-var update = __webpack_require__(18)(content, options);
+var update = __webpack_require__(17)(content, options);
 
 if(content.locals) module.exports = content.locals;
 
 if(false) {}
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(17)(false);
+exports = module.exports = __webpack_require__(16)(false);
 // Module
-exports.push([module.i, ".headLine {\n  font-size: 10vh;\n  text-align: center; }\n\n.container {\n  margin: auto;\n  width: 60vh;\n  height: 60vh;\n  text-align: center;\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  grid-template-rows: repeat(3, 1fr);\n  box-shadow: 1px 3px 4px 4px rgba(0, 0, 0, 0.4), 3px 4px 7px 7px rgba(0, 0, 0, 0.6); }\n\n.game__cell {\n  background: lightgray;\n  width: 20vh;\n  height: 16vh;\n  border: 1px solid black;\n  font-size: 10vh;\n  padding-top: 4vh;\n  cursor: pointer; }\n\n.button__restart {\n  background-color: silver;\n  border: 0;\n  border-radius: 1vh;\n  display: block;\n  margin: auto;\n  margin-top: 4vh;\n  padding: 2vh 5vh 2vh 5vh;\n  font-size: 3vh;\n  cursor: pointer;\n  box-shadow: 1px 2px 3px 3px rgba(0, 0, 0, 0.4); }\n\n.hide {\n  display: none; }\n\n.moved {\n  position: absolute;\n  color: yellow;\n  top: 35%;\n  left: 17%;\n  font-size: 10vw;\n  animation-name: moveFil;\n  animation-duration: 2.5s; }\n\n@keyframes moveFil {\n  0% {\n    color: blue;\n    top: 0%;\n    left: 5%;\n    font-size: 0vw; }\n  50% {\n    color: green;\n    top: 30%;\n    left: 10%;\n    font-size: 12vw; }\n  100% {\n    color: yellow;\n    top: 35%;\n    left: 17%;\n    font-size: 10vw; } }\n", ""]);
+exports.push([module.i, ".headLine {\n  font-size: 10vh;\n  text-align: center; }\n\n.container {\n  width: 60vh;\n  height: 60vh;\n  margin: auto;\n  text-align: center;\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  grid-template-rows: repeat(3, 1fr);\n  box-shadow: 1px 3px 4px 4px rgba(0, 0, 0, 0.4), 3px 4px 7px 7px rgba(0, 0, 0, 0.6); }\n\n.game__cell {\n  background: lightgray;\n  width: 20vh;\n  height: 16vh;\n  border: 1px solid black;\n  font-size: 10vh;\n  padding-top: 4vh;\n  cursor: pointer; }\n\n.button__restart {\n  background-color: silver;\n  border: 0;\n  border-radius: 1vh;\n  display: block;\n  margin: auto;\n  margin-top: 4vh;\n  padding: 2vh 5vh 2vh 5vh;\n  font-size: 3vh;\n  cursor: pointer;\n  box-shadow: 1px 2px 3px 3px rgba(0, 0, 0, 0.4); }\n\n.hide {\n  display: none; }\n\n.moved {\n  position: absolute;\n  color: yellow;\n  margin-top: 18vh;\n  margin-left: 18vw;\n  font-size: 10vw;\n  animation-name: moveFil;\n  animation-duration: 2.5s; }\n\n@keyframes moveFil {\n  0% {\n    color: blue;\n    margin-top: 1vh;\n    margin-left: 1vw;\n    font-size: 0vw; }\n  50% {\n    color: green;\n    margin-top: 14vh;\n    margin-left: 14vw;\n    font-size: 12vw; }\n  100% {\n    color: yellow;\n    margin-top: 18vh;\n    margin-left: 18vw;\n    font-size: 10vw; } }\n", ""]);
 
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24956,7 +24893,7 @@ function toComment(sourceMap) {
 }
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -25025,7 +24962,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(19);
+var	fixUrls = __webpack_require__(18);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -25360,7 +25297,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports) {
 
 
@@ -25456,4 +25393,4 @@ module.exports = function (css) {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=indexa64ebb0a38c43820fe5c.js.map
+//# sourceMappingURL=index20bed83d42268bc7da8b.js.map
